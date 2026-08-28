@@ -18,21 +18,30 @@ body {
   font-family: 'Archivo','Helvetica Neue',Arial,sans-serif;
 }
 /* margin:auto centres the frame while keeping overflow reachable —
-   align-items:center would clip the top edge on short viewports. */
+   align-items:center clips the top edge on short viewports. */
 .frame {
   margin: auto;
   flex: 0 0 auto;
   box-shadow: 0 24px 70px rgba(0,0,0,.5);
   border-radius: 12px;
   overflow: hidden;
-  transform-origin: center center;
 }
-@media (max-height: 900px) { .frame { transform: scale(.94); } }
-@media (max-height: 840px) { .frame { transform: scale(.88); } }
-@media (max-height: 780px) { .frame { transform: scale(.82); } }
-@media (max-height: 700px) { .frame { transform: scale(.74); } }
-@media (max-height: 620px) { .frame { transform: scale(.66); } }
-@media (max-width: 430px) { body { padding: 8px; } }
+
+/* Short desktop windows: zoom shrinks the LAYOUT box too, so no dead space
+   is left around the frame (transform:scale would leave gaps). */
+@media (min-width: 431px) and (max-height: 900px) { .frame { zoom: .94; } }
+@media (min-width: 431px) and (max-height: 840px) { .frame { zoom: .88; } }
+@media (min-width: 431px) and (max-height: 780px) { .frame { zoom: .82; } }
+@media (min-width: 431px) and (max-height: 700px) { .frame { zoom: .74; } }
+@media (min-width: 431px) and (max-height: 620px) { .frame { zoom: .66; } }
+
+/* Phones: drop the frame and go edge-to-edge — you're looking at a mobile
+   design on a mobile, so show it the way it would actually appear. */
+@media (max-width: 430px) {
+  body { padding: 0; background: #111111; }
+  .frame { margin: 0; width: 100%; border-radius: 0; box-shadow: none; }
+  .frame > div { width: 100% !important; height: 100dvh !important; }
+}
 
     body { margin: 0; font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif; }
     a { color: #2CC2E3; text-decoration: none; }
@@ -166,7 +175,7 @@ body {
   </div>
 
   <!-- CTA -->
-  <div style="padding: 0 24px 22px 24px; display: flex; flex-direction: column; gap: 11px; flex-shrink: 0;">
+  <div style="padding: 0 24px 34px 24px; display: flex; flex-direction: column; gap: 11px; flex-shrink: 0;">
     <a href="#" style="display: flex; align-items: center; justify-content: center; gap: 9px; height: 54px; background: #2CC2E3; color: #111111; font-size: 16px; font-weight: 600; border-radius: 4px; letter-spacing: 0.01em;">
       Shop SmartBells
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
