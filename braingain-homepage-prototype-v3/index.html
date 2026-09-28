@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BrainGain — Option A (Quiet)</title>
+<meta name="description" content="Homepage visual direction A: quiet. Dark ground, monochrome, one accent, one moving element.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================
+   BrainGain homepage — VISUAL DIRECTION A: DARK GROUND
+   Content order is Babar's. Only the visual treatment varies.
+
+   A light-ground version was built and rejected. BrainGain's assets are a
+   dark-brand set: black products, a logo drawn light, a neon cyan that goes
+   weak on white. Dark is not a preference here, it is what the assets support.
+
+   Rules this direction commits to:
+     1. Cyan on the CTA. Trustpilot green on the review stars, borrowed
+        deliberately because people recognise that green as Trustpilot's.
+     2. Hairlines and spacing rather than heavy panels.
+     3. Generous space. Section rhythm 72px, not 48.
+   =========================================================== */
+
+:root{
+  --ground:#0A0A0B;
+  --surface:#131518;        /* cards, image plates */
+  --header:#0A0A0B;
+  --ink:#FFFFFF;
+  --muted:rgba(255,255,255,.64);
+  --faint:rgba(255,255,255,.42);
+  --hair:rgba(255,255,255,.10);
+  --accent:#2CC2E3;
+  --accent-hi:#5BD5F0;
+  --accent-ink:#04222A;
+
+  /* spacing scale */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:72px; --s9:96px;
+
+  /* type scale */
+  --t-micro:12px; --t-body:15px; --t-section:20px; --t-display:40px;
+
+  --gutter:24px;
+  --maxw:430px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:#000;
+  color:var(--ink);
+  font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  font-size:var(--t-body);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-appearance:none;appearance:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+.page{max-width:var(--maxw);margin:0 auto;background:var(--ground);overflow-x:hidden}
+@media (min-width:520px){
+  body{background:#131416}
+  .page{box-shadow:0 0 90px rgba(0,0,0,.7)}
+}
+.wrap{padding-left:var(--gutter);padding-right:var(--gutter)}
+.section{padding:var(--s8) 0}
+
+/* ---------- header ---------- */
+.masthead{
+  background:var(--header);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px var(--gutter);
+}
+.brand{display:flex;align-items:center;gap:9px}
+.brand img{height:26px;width:auto}
+.brand .wordmark{font-weight:700;font-size:17px;letter-spacing:.10em;color:#fff;display:none}
+.navicons{display:flex;align-items:center;gap:20px}
+.navicons svg{width:21px;height:21px;stroke:#FFFFFF;stroke-width:1.5;fill:none}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:calc(100svh - 128px);
+  display:flex;flex-direction:column;
+  padding-bottom:var(--s8);
+  isolation:isolate;
+}
+.videoplate{
+  position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(130% 62% at 50% 30%, rgba(44,194,227,.11) 0%, rgba(44,194,227,0) 66%),
+    linear-gradient(180deg,#0E1013 0%, var(--ground) 58%);
+}
+/* Footage brief: the top and bottom quarters of the frame must stay quiet.
+   Anything busy behind the headline or the button breaks them. */
+.videoplate::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 54%, rgba(0,0,0,.80) 100%);
+}
+.videoslot{
+  flex:1 1 auto;display:flex;align-items:center;justify-content:center;
+  min-height:140px;padding:var(--s6) var(--gutter);
+}
+.playmark{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--faint)}
+.playmark .disc{
+  width:54px;height:54px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.22);
+  display:grid;place-items:center;background:rgba(255,255,255,.05);
+}
+.playmark .disc svg{width:17px;height:17px;fill:#fff;margin-left:3px}
+.playmark span{font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase}
+
+.herotext{padding:0 var(--gutter)}
+h1{
+  margin:0;
+  font-size:var(--t-display);
+  line-height:1.05;
+  letter-spacing:-.028em;
+  font-weight:700;
+  text-wrap:balance;
+}
+h1 span{display:block}
+/* the cheapest answer to "is this for me?" — one line, no extra block */
+.herosub{
+  margin:var(--s3) 0 0;
+  font-size:18px;line-height:1.35;color:var(--muted);
+  text-wrap:pretty;
+}
+
+/* promises we make — quiet row, no icons competing with the CTA */
+.promises{
+  display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);
+  margin-top:var(--s5);
+  font-size:var(--t-micro);
+  letter-spacing:.02em;
+  color:var(--muted);
+}
+.promises li{list-style:none;display:flex;align-items:center;gap:7px}
+.promises ul{display:contents;margin:0;padding:0}
+.promises svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.6;fill:none}
+
+.cta-row{padding:var(--s6) var(--gutter) 0}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;min-height:56px;
+  background:var(--accent);color:var(--accent-ink);
+  font-weight:700;font-size:17px;letter-spacing:-.005em;
+  border-radius:999px;
+  transition:background .18s ease, transform .12s ease;
+}
+.btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.4;fill:none}
+.btn:hover{background:var(--accent-hi)}
+.btn:active{transform:translateY(1px)}
+
+/* ---------- evidence bar ---------- */
+.evidence{
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  display:flex;justify-content:center;gap:var(--s6);
+  padding:18px var(--gutter);
+  font-size:var(--t-micro);color:var(--muted);
+}
+.evidence strong{color:var(--ink);font-weight:700}
+
+/* ---------- press marquee ----------
+   Shared with the review rail. Two identical runs; the JS resets the
+   scroll position by half the track width, so the loop is seamless and
+   the rail stays a real scroll container that can be swiped or dragged. */
+.pressrail,.reviewrail{position:relative;overflow:hidden}
+.pressrail::before,.pressrail::after,
+.reviewrail::before,.reviewrail::after{
+  content:"";position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;
+}
+.pressrail::before,.reviewrail::before{left:0;background:linear-gradient(90deg,var(--ground),transparent)}
+.pressrail::after,.reviewrail::after{right:0;background:linear-gradient(270deg,var(--ground),transparent)}
+.presstrack,.reviewtrack{
+  display:flex;gap:var(--s7);
+  overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+  padding:2px var(--gutter);
+  cursor:grab;
+  /* a click-drag would otherwise select the quote text mid-drag */
+  -webkit-user-select:none;user-select:none;
+}
+.presstrack::-webkit-scrollbar,.reviewtrack::-webkit-scrollbar{display:none}
+.presstrack.dragging,.reviewtrack.dragging{cursor:grabbing;user-select:none}
+
+.quote{
+  flex:0 0 268px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  align-items:flex-start;        /* stop the column stretching the masthead */
+  gap:var(--s4);
+  margin:0;
+}
+.quote blockquote{
+  margin:0;font-size:16px;line-height:1.45;letter-spacing:-.01em;
+  color:var(--ink);text-wrap:pretty;
+}
+.quote img{
+  height:15px;width:auto;flex:0 0 auto;
+  opacity:.72;
+}
+/* Three of the five mastheads ship with a solid white background baked in
+   (Runner's World, GQ, Women's Health). brightness(0) invert(1) would turn
+   those into a plain white block, so they get inverted instead: the white
+   ground goes black and the type goes white. The two with real transparency
+   (Men's Fitness, T3) are forced to flat white. */
+.quote img.alpha{filter:brightness(0) invert(1)}
+.quote img.solid{filter:grayscale(1) invert(1)}
+
+/* ---------- best sellers ---------- */
+.carousel{position:relative;margin-top:var(--s5)}
+.track{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;-ms-overflow-style:none;
+  border-radius:12px;
+}
+.track::-webkit-scrollbar{display:none}
+.slide{
+  flex:0 0 100%;scroll-snap-align:center;
+  aspect-ratio:1/1;background:var(--surface);
+  overflow:hidden;display:block;
+  -webkit-tap-highlight-color:transparent;
+}
+.slide img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .35s cubic-bezier(.2,.7,.3,1);
+}
+/* pointer:fine keeps this off touch devices, where hover doesn't exist
+   and a sticky :hover state would leave the image stuck enlarged */
+@media (hover:hover) and (pointer:fine){
+  .slide:hover img{transform:scale(1.06)}
+}
+
+.chev{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(10,10,11,.62);
+  border:1px solid rgba(255,255,255,.22);
+  display:grid;place-items:center;
+  backdrop-filter:blur(8px);
+  transition:opacity .2s ease, background .2s ease;
+}
+.chev svg{width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none}
+.chev[data-dir="prev"]{left:10px}
+.chev[data-dir="next"]{right:10px}
+.chev:hover{background:rgba(10,10,11,.88)}
+.chev[disabled]{opacity:0;pointer-events:none}
+
+.dots{display:flex;justify-content:center;gap:7px;margin-top:var(--s4)}
+.dots button{
+  flex:0 0 auto;
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(255,255,255,.26);
+  transition:background .2s ease,transform .2s ease;
+}
+.dots button[aria-current="true"]{background:var(--ink);transform:scale(1.25)}
+
+.product{margin-top:var(--s5);text-align:center}
+.product h3{margin:0;font-size:17px;font-weight:500;letter-spacing:-.01em}
+.meta{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  margin-top:var(--s2);font-size:var(--t-micro);color:var(--muted);
+}
+.meta svg{width:58px;height:11px}
+.price{
+  margin-top:var(--s3);
+  font-size:var(--t-section);font-weight:700;letter-spacing:-.02em;
+}
+.price s{
+  margin-left:10px;font-size:var(--t-body);font-weight:400;
+  color:var(--faint);text-decoration-thickness:1px;
+}
+
+/* ---------- social proof ----------
+   The evidence is the design. The score is set larger than the h1
+   because this is the one place on the page where a number, not a
+   sentence, is the argument. */
+.proof{border-top:1px solid var(--hair)}
+.score{display:flex;align-items:baseline;gap:var(--s3)}
+.score .n{
+  font-size:64px;line-height:.9;font-weight:700;letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums;
+}
+.score .of{font-size:var(--t-body);color:var(--faint)}
+.source{margin:var(--s3) 0 0;font-size:var(--t-micro);color:var(--muted)}
+.source strong{color:var(--ink);font-weight:700}
+
+.dist{display:none}
+
+/* ---------- review cards ----------
+   Trustpilot green is a second accent. It buys borrowed credibility:
+   people recognise that green as Trustpilot's, and a white star would
+   throw that away. */
+.reviewrail{margin-top:var(--s6)}
+.reviewtrack{gap:var(--s4);align-items:stretch}
+.rcard{
+  flex:0 0 262px;
+  background:var(--surface);
+  border:1px solid var(--hair);
+  border-radius:14px;
+  padding:var(--s5);
+  display:flex;flex-direction:column;gap:var(--s3);
+}
+.rcard .top{display:flex;align-items:center;gap:10px}
+.rcard .top svg{width:62px;height:12px;flex:0 0 auto}
+.rcard .top span{font-size:var(--t-micro);color:var(--faint);font-style:italic}
+.rcard h3{margin:0;font-size:16px;font-weight:700;letter-spacing:-.012em}
+.rcard p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+
+/* ---------- our products ---------- */
+.prodslide{
+  flex:0 0 100%;scroll-snap-align:center;
+  aspect-ratio:1/1;background:var(--surface);overflow:hidden;display:block;
+}
+.prodslide img{width:100%;height:100%;object-fit:cover}
+.prodname{
+  margin-top:var(--s5);text-align:center;
+  font-size:var(--t-section);font-weight:700;letter-spacing:-.018em;
+}
+
+/* ---------- story ---------- */
+.section-head{
+  margin:0 0 var(--s5);
+  font-size:var(--t-section);font-weight:700;letter-spacing:-.018em;
+}
+.founders{
+  aspect-ratio:16/10;overflow:hidden;
+  background:repeating-linear-gradient(135deg,#111316 0 12px,#15181C 12px 24px);
+  display:grid;place-items:center;
+  color:var(--faint);font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;
+}
+.founders img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.04)}
+.belief{
+  margin:var(--s6) 0 var(--s3);
+  font-size:26px;line-height:1.2;letter-spacing:-.024em;font-weight:700;
+  text-wrap:balance;
+}
+.storybody{margin:0;font-size:var(--t-body);color:var(--muted)}
+
+/* ---------- closing ---------- */
+.closing{padding:var(--s8) 0 var(--s9)}
+.legal{
+  margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--hair);
+  display:flex;flex-wrap:wrap;gap:var(--s3) var(--s5);
+  font-size:var(--t-micro);color:var(--faint);
+}
+
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .reveal{opacity:1;transform:none}
+  .track{scroll-behavior:auto}
+  /* rails stay swipeable, they just stop moving on their own and the
+     duplicate run is hidden so nothing reads twice */
+  .presstrack,.reviewtrack{scroll-snap-type:x mandatory}
+  .presstrack [data-clone],.reviewtrack [data-clone]{display:none}
+  .quote,.rcard{scroll-snap-align:start}
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+  <!-- header -->
+  <header class="masthead">
+    <a class="brand" href="#" aria-label="BrainGain home">
+      <img src="https://eu.braingain.fit/cdn/shop/files/Logo2.png" alt=""
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="wordmark">BRAINGAIN</span>
+    </a>
+    <nav class="navicons" aria-label="Utilities">
+      <a href="#" aria-label="Search"><svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></a>
+      <a href="#" aria-label="Basket"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h2.2l2.1 10.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L20.5 8H6"/><circle cx="10" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg></a>
+      <button aria-label="Menu"><svg viewBox="0 0 24 24" stroke-linecap="round" style="width:22px;height:22px"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </nav>
+  </header>
+
+  <!-- hero -->
+  <section class="hero">
+    <div class="videoplate" aria-hidden="true"></div>
+
+    <div class="videoslot">
+      <div class="playmark">
+        <div class="disc"><svg viewBox="0 0 24 24"><path d="M8 5l12 7-12 7z"/></svg></div>
+        <span>Video</span>
+      </div>
+    </div>
+
+    <div class="herotext">
+      <h1>A full rack.<span>In one dumbbell.</span></h1>
+      <p class="herosub">Serious about training, short on space?</p>
+
+      <div class="promises">
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.5"/><circle cx="17.5" cy="18" r="1.5"/></svg>
+            Free UK delivery
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4-2.9 7.3-7 8.5-4.1-1.2-7-4.5-7-8.5V6z"/></svg>
+            2-year warranty
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4z"/><path d="M3 8v8l9 4 9-4V8"/></svg>
+            14-day returns
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn" href="https://braingain.fit/collections/adjustable-dumbbells" target="_blank" rel="noopener noreferrer">
+        Shop SmartBells
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- evidence -->
+  <div class="evidence">
+    <span><strong>100,000+</strong> lifters</span>
+    <span><strong>4.7 Excellent</strong> on Trustpilot</span>
+  </div>
+
+  <!-- press -->
+  <section class="section reveal" style="padding-bottom:var(--s7)">
+    <div class="wrap"><h2 class="section-head">As seen in</h2></div>
+    <div class="pressrail" id="pressrail" role="region" aria-label="Press quotes">
+      <div class="presstrack" id="presstrack"></div>
+    </div>
+  </section>
+
+  <!-- best sellers -->
+  <section class="section reveal" id="bestsellers" style="padding-top:0">
+    <div class="wrap">
+      <h2 class="section-head">Best sellers</h2>
+
+      <div class="carousel">
+        <div class="track" id="track" tabindex="0" role="group"
+             aria-label="Product images, 2 of them. Use the arrows or swipe.">
+          <a class="slide" href="https://braingain.fit/products/40kg-adjustable-dumbbell-pair-1"
+             target="_blank" rel="noopener noreferrer" aria-label="View SmartBells 24kg adjustable dumbbells, black">
+            <img src="images/product-black.jpg"
+                 alt="SmartBells 24kg adjustable dumbbells in black, in their cradles.">
+          </a>
+          <a class="slide" href="https://braingain.fit/products/40kg-adjustable-dumbbell-pair-1"
+             target="_blank" rel="noopener noreferrer" aria-label="View SmartBells adjustable dumbbells, chrome">
+            <img src="images/product-chrome.jpg"
+                 alt="SmartBells adjustable dumbbells in chrome, in their cradles.">
+          </a>
+        </div>
+
+        <button class="chev" data-dir="prev" data-for="track" aria-label="Previous image" disabled>
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="chev" data-dir="next" data-for="track" aria-label="Next image">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="dots" id="dots" role="tablist" aria-label="Choose image"></div>
+
+      <div class="product">
+        <h3><a href="https://braingain.fit/products/40kg-adjustable-dumbbell-pair-1" target="_blank" rel="noopener noreferrer">SmartBells® 24kg Adjustable Dumbbells</a></h3>
+        <div class="meta">
+          <svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#00B67A"><path d="M10 1l2.6 5.6 6.1.8-4.5 4.2 1.2 6L10 14.6 4.6 17.6l1.2-6L1.3 7.4l6.1-.8z"/><path d="M30 1l2.6 5.6 6.1.8-4.5 4.2 1.2 6L30 14.6l-5.4 3 1.2-6-4.5-4.2 6.1-.8z"/><path d="M50 1l2.6 5.6 6.1.8-4.5 4.2 1.2 6L50 14.6l-5.4 3 1.2-6-4.5-4.2 6.1-.8z"/><path d="M70 1l2.6 5.6 6.1.8-4.5 4.2 1.2 6L70 14.6l-5.4 3 1.2-6-4.5-4.2 6.1-.8z"/><path d="M90 1l2.6 5.6 6.1.8-4.5 4.2 1.2 6L90 14.6l-5.4 3 1.2-6-4.5-4.2 6.1-.8z"/></g></svg>
+          469 reviews
+        </div>
+        <div class="price">£169.99 <s>£299.99</s></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- social proof -->
+  <section class="section proof reveal">
+    <div class="wrap">
+      <div class="score">
+        <span class="n">4.7</span>
+        <span class="of">out of 5</span>
+      </div>
+      <p class="source"><strong>Excellent</strong> · 2,087 reviews on Trustpilot</p>
+    </div>
+
+    <div class="reviewrail" role="region" aria-label="Customer reviews">
+      <div class="reviewtrack" id="reviewtrack" tabindex="0"></div>
+    </div>
+  </section>
+
+  <!-- our products -->
+  <section class="section reveal" id="products" style="padding-top:0">
+    <div class="wrap">
+      <h2 class="section-head">Our products</h2>
+
+      <div class="carousel">
+        <div class="track" id="prodtrack" tabindex="0" role="group"
+             aria-label="Product categories, 4 of them. Use the arrows or swipe.">
+          <a class="prodslide" href="https://braingain.fit/collections/adjustable-dumbbells" target="_blank" rel="noopener noreferrer">
+            <img src="images/cat-dumbbells.jpg" alt="BrainGain chrome adjustable dumbbells in a living room corner.">
+          </a>
+          <a class="prodslide" href="https://braingain.fit/collections/adjustable-kettlebells" target="_blank" rel="noopener noreferrer">
+            <img src="images/cat-kettlebells.jpg" alt="A BrainGain adjustable kettlebell with a blue dial.">
+          </a>
+          <a class="prodslide" href="https://braingain.fit/collections/olympic-plates" target="_blank" rel="noopener noreferrer">
+            <img src="images/cat-plates.jpg" alt="A pair of BrainGain 15kg Olympic plates.">
+          </a>
+          <a class="prodslide" href="https://braingain.fit/collections/stands-benches" target="_blank" rel="noopener noreferrer">
+            <img src="images/cat-benches.jpg" alt="A BrainGain adjustable weight bench.">
+          </a>
+        </div>
+
+        <button class="chev" data-dir="prev" data-for="prodtrack" aria-label="Previous product" disabled>
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="chev" data-dir="next" data-for="prodtrack" aria-label="Next product">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="prodname" id="prodname">Adjustable Dumbbells</div>
+      <div class="dots" id="proddots" role="tablist" aria-label="Choose product"></div>
+    </div>
+  </section>
+
+  <!-- story -->
+  <section class="section reveal" style="padding-top:var(--s7)">
+    <div class="wrap">
+      <h2 class="section-head">Our story</h2>
+    </div>
+    <div class="founders">
+      <img src="images/founders.jpg" alt="BrainGain founders Dil and Kareem." onerror="this.remove()">
+      Founders photo
+    </div>
+    <div class="wrap">
+      <p class="belief">A proper gym shouldn't need a spare room.</p>
+      <p class="storybody">
+        Two friends, Dil and Kareem, started BrainGain with that core belief. We build adjustable
+        dumbbells, kettlebells and benches that save space, time and money, now in over 100,000
+        homes across 30+ countries.
+      </p>
+    </div>
+  </section>
+
+  <!-- closing -->
+  <section class="closing">
+    <div class="wrap reveal">
+      <a class="btn" href="https://braingain.fit/collections/adjustable-dumbbells" target="_blank" rel="noopener noreferrer">
+        Shop SmartBells
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="legal">
+        <span>Free UK delivery</span><span>2-year warranty</span>
+        <span>14-day returns</span><span>Impressum</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =========================================================
+     Snap carousel: one item at a time, chevrons + dots + swipe.
+     Used by Best sellers and Our products.
+     ========================================================= */
+  function carousel(trackId, dotsId, opts){
+    opts = opts || {};
+    var track = document.getElementById(trackId);
+    if (!track) return;
+    var dots  = document.getElementById(dotsId);
+    var count = track.children.length;
+    var prev = document.querySelector('.chev[data-dir="prev"][data-for="' + trackId + '"]');
+    var next = document.querySelector('.chev[data-dir="next"][data-for="' + trackId + '"]');
+    var label = opts.labelEl ? document.getElementById(opts.labelEl) : null;
+    var names = opts.names || [];
+    var index = 0;
+
+    for (var i = 0; i < count; i++) {
+      (function(n){
+        var b = document.createElement('button');
+        b.setAttribute('role','tab');
+        b.setAttribute('aria-label', names[n] || ('Image ' + (n+1)));
+        b.addEventListener('click', function(){ go(n); });
+        dots.appendChild(b);
+      })(i);
+    }
+
+    function paint(){
+      if (prev) prev.disabled = index === 0;
+      if (next) next.disabled = index === count - 1;
+      [].forEach.call(dots.children, function(d, n){
+        d.setAttribute('aria-current', String(n === index));
+      });
+      if (label && names[index]) label.textContent = names[index];
+    }
+
+    function go(n){
+      index = Math.max(0, Math.min(count - 1, n));
+      track.scrollTo({ left: index * track.clientWidth, behavior: reduced ? 'auto' : 'smooth' });
+      paint();
+    }
+
+    if (prev) prev.addEventListener('click', function(){ go(index - 1); });
+    if (next) next.addEventListener('click', function(){ go(index + 1); });
+
+    // keep state in sync when the user swipes rather than pressing
+    var t;
+    track.addEventListener('scroll', function(){
+      clearTimeout(t);
+      t = setTimeout(function(){
+        index = Math.round(track.scrollLeft / track.clientWidth);
+        paint();
+      }, 90);
+    });
+
+    track.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); go(index - 1); }
+    });
+
+    /* The slides are links inside a horizontally scrollable track, so a swipe
+       that ends on a slide would otherwise fire a click and navigate away.
+       Suppress the click when the pointer travelled more than a few pixels. */
+    var downX = 0, downY = 0, dragged = false;
+    track.addEventListener('pointerdown', function(e){ downX = e.clientX; downY = e.clientY; dragged = false; });
+    track.addEventListener('pointerup', function(e){
+      dragged = Math.abs(e.clientX - downX) > 8 || Math.abs(e.clientY - downY) > 8;
+    });
+    track.addEventListener('click', function(e){
+      if (dragged) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+
+    paint();
+  }
+
+  /* =========================================================
+     Continuous rail: drifts right to left on its own, and stays a real
+     scroll container so it can be swiped on touch or click-dragged on
+     desktop. Used by the press quotes and the review cards.
+
+     A CSS keyframe marquee can't be grabbed, which is why this moves
+     scrollLeft by hand rather than translating the track.
+     ========================================================= */
+  function rail(track, speed){
+    if (!track) return;
+    var half = 0, paused = false;
+    /* scrollLeft rounds to whole pixels on assignment, so adding 0.35 each
+       frame would round straight back to zero and the rail would never move.
+       Keep the position as a float here and write the rounded value out. */
+    var pos = 0;
+
+    function measure(){ half = track.scrollWidth / 2; }
+    measure();
+    window.addEventListener('resize', measure);
+    if (window.ResizeObserver) new ResizeObserver(measure).observe(track);
+
+    function tick(){
+      if (!paused && half) {
+        pos += speed;
+        if (pos >= half) pos -= half;
+        track.scrollLeft = pos;
+      }
+      requestAnimationFrame(tick);
+    }
+    if (!reduced) requestAnimationFrame(tick);
+
+    function hold(){ paused = true; }
+    function release(){ paused = false; pos = track.scrollLeft; }
+    track.addEventListener('pointerenter', hold);
+    track.addEventListener('pointerleave', release);
+    track.addEventListener('focusin', hold);
+    track.addEventListener('focusout', release);
+    track.addEventListener('touchstart', hold, { passive: true });
+    track.addEventListener('touchend', function(){ setTimeout(release, 1500); }, { passive: true });
+
+    var down = false, startX = 0, startScroll = 0, moved = false;
+    track.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'touch') return;   // touch scrolls natively
+      down = true; moved = false;
+      startX = e.clientX; startScroll = track.scrollLeft;
+      track.classList.add('dragging');
+      try { track.setPointerCapture(e.pointerId); } catch(err){}
+      hold();
+    });
+    track.addEventListener('pointermove', function(e){
+      if (!down) return;
+      var d = e.clientX - startX;
+      if (Math.abs(d) > 3) moved = true;
+      track.scrollLeft = startScroll - d;
+      if (half) {
+        if (track.scrollLeft >= half) { track.scrollLeft -= half; startScroll -= half; }
+        if (track.scrollLeft <= 0)    { track.scrollLeft += half; startScroll += half; }
+      }
+    });
+    track.addEventListener('selectstart', function(e){ if (down) e.preventDefault(); });
+    function endDrag(e){
+      if (!down) return;
+      down = false;
+      track.classList.remove('dragging');
+      if (moved && window.getSelection) {
+        var s = window.getSelection();
+        if (s && s.removeAllRanges) s.removeAllRanges();
+      }
+      try { track.releasePointerCapture(e.pointerId); } catch(err){}
+      setTimeout(release, 800);
+    }
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('click', function(e){
+      if (moved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+  }
+
+  carousel('track', 'dots');
+  carousel('prodtrack', 'proddots', {
+    labelEl: 'prodname',
+    names: ['Adjustable Dumbbells','Adjustable Kettlebells','Olympic Plates','Benches']
+  });
+
+  /* ---- review cards ----
+     Chosen to answer objections the rest of the page leaves open:
+     Mehmet on how fiddly the dial is, Jack on whether the plates stay
+     locked mid-set, John on space. All from the live Trustpilot feed. */
+  var REVIEWS = [
+    { n:'Mehmet', t:'Easy to adjust',
+      b:'Great adjustable dumbbells. Very easy to use. Very stable and reliable. Weight is easily adjustable by turning the dial.' },
+    { n:'Jack', t:'Quality is great',
+      b:'Overall the quality is great. The latching mechanism for the plates seems solid and very secure. Easy to use between sets.' },
+    { n:'John', t:'Fantastic weights',
+      b:'These weights are fantastic and feel really good quality. The space-saving aspect is exactly what I was after.' },
+    { n:'Marty', t:'Quality weights',
+      b:'The quality of the weights were very good, solidly built and does the job well, really speeding up workout time.' },
+    { n:'Eoghan', t:'Excellent quality',
+      b:'Very good experience. Product arrived quickly and is excellent quality. Would highly recommend.' },
+    { n:'Graeme', t:'Solid and well made',
+      b:'The dumbbells themselves are solid, well made, and great quality. I would highly recommend them.' }
+  ];
+
+  var STARS = '<svg viewBox="0 0 100 20" aria-hidden="true"><g fill="#00B67A">'
+    + [10,30,50,70,90].map(function(x){
+        return '<path d="M' + x + ' 1l2.6 5.6 6.1.8-4.5 4.2 1.2 6L' + x
+             + ' 14.6l-5.4 3 1.2-6-4.5-4.2 6.1-.8z"/>';
+      }).join('')
+    + '</g></svg>';
+
+  var reviewtrack = document.getElementById('reviewtrack');
+  function rcard(r, clone){
+    var a = document.createElement('article');
+    a.className = 'rcard';
+    if (clone) { a.setAttribute('data-clone',''); a.setAttribute('aria-hidden','true'); }
+    a.innerHTML = '<div class="top">' + STARS + '<span>' + r.n + '</span></div>'
+                + '<h3>' + r.t + '</h3><p>' + r.b + '</p>';
+    return a;
+  }
+  REVIEWS.forEach(function(r){ reviewtrack.appendChild(rcard(r, false)); });
+  REVIEWS.forEach(function(r){ reviewtrack.appendChild(rcard(r, true)); });
+
+  /* ---- press marquee ----
+     Quotes and mastheads as published on the live BrainGain site. */
+  var PRESS = [
+    { q: 'An industrial-strength set of weights with a smart design.',
+      n: "Men's Fitness", kind: 'alpha',
+      src: 'https://cdn.shopify.com/s/files/1/0633/2461/8960/files/quotelogo1_8153325a-60c9-4b38-b52e-01cd74f616e2.png' },
+    { q: 'Ultra smooth and easy to twist… one of the sturdiest designs we tried.',
+      n: "Runner's World", kind: 'solid',
+      src: 'https://cdn.shopify.com/s/files/1/0633/2461/8960/files/quotelogo3.png' },
+    { q: 'For the most experienced iron-pumpers, while perfectly catering to beginners too.',
+      n: 'GQ', kind: 'solid',
+      src: 'https://cdn.shopify.com/s/files/1/0633/2461/8960/files/quotelogo4.png' },
+    { q: 'The build quality is excellent. The knurled metal handle is the icing on the cake.',
+      n: 'T3', kind: 'alpha',
+      src: 'https://cdn.shopify.com/s/files/1/0633/2461/8960/files/quotelogo5_0f6c0de4-9d4f-4ce6-b4e5-f58464494006.png' },
+    { q: 'Robust… and comfy for most classic moves.',
+      n: "Women's Health", kind: 'solid',
+      src: 'https://cdn.shopify.com/s/files/1/0633/2461/8960/files/quotelogo2.png' }
+  ];
+
+  var presstrack = document.getElementById('presstrack');
+
+  function quoteEl(p, clone){
+    var f = document.createElement('figure');
+    f.className = 'quote';
+    if (clone) { f.setAttribute('aria-hidden','true'); f.setAttribute('data-clone',''); }
+    var b = document.createElement('blockquote');
+    b.textContent = '“' + p.q + '”';
+    var img = document.createElement('img');
+    img.src = p.src; img.alt = p.n; img.loading = 'lazy';
+    img.className = p.kind;
+    // if the masthead fails, fall back to the title as text rather than nothing
+    img.onerror = function(){
+      var s = document.createElement('span');
+      s.textContent = p.n;
+      s.style.cssText = 'font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.62)';
+      img.replaceWith(s);
+    };
+    f.appendChild(b); f.appendChild(img);
+    return f;
+  }
+
+  PRESS.forEach(function(p){ presstrack.appendChild(quoteEl(p, false)); });
+  PRESS.forEach(function(p){ presstrack.appendChild(quoteEl(p, true)); });
+
+  /* start both rails once their content exists and has laid out */
+  requestAnimationFrame(function(){
+    rail(presstrack, 0.35);
+    rail(reviewtrack, 0.35);
+  });
+
+  /* ---- scroll reveal ---- */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
