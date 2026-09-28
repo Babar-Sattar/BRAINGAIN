@@ -172,12 +172,9 @@ h1 span{display:block}
    scroll position by half the track width, so the loop is seamless and
    the rail stays a real scroll container that can be swiped or dragged. */
 .pressrail,.reviewrail{position:relative;overflow:hidden}
-.pressrail::before,.pressrail::after,
-.reviewrail::before,.reviewrail::after{
-  content:"";position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;
-}
-.pressrail::before,.reviewrail::before{left:0;background:linear-gradient(90deg,var(--ground),transparent)}
-.pressrail::after,.reviewrail::after{right:0;background:linear-gradient(270deg,var(--ground),transparent)}
+/* No edge fades on either rail. Both carry white cards now, and a fade
+   over white reads as a smudge rather than a hint that there is more to
+   scroll. The cards running off the edge already say that. */
 .presstrack,.reviewtrack{
   display:flex;gap:var(--s7);
   overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
@@ -190,27 +187,32 @@ h1 span{display:block}
 .presstrack.dragging,.reviewtrack.dragging{cursor:grabbing;user-select:none}
 
 .quote{
-  flex:0 0 268px;
+  flex:0 0 256px;
+  background:#FFFFFF;
+  /* the card sets its own ink. Without this the masthead text fallback
+     inherits white from the dark section and vanishes on the white card. */
+  color:#14161A;
+  border-radius:14px;
+  padding:var(--s5);
   display:flex;flex-direction:column;justify-content:space-between;
   align-items:flex-start;        /* stop the column stretching the masthead */
   gap:var(--s4);
   margin:0;
 }
 .quote blockquote{
-  margin:0;font-size:16px;line-height:1.45;letter-spacing:-.01em;
-  color:var(--ink);text-wrap:pretty;
+  margin:0;font-size:15px;line-height:1.45;letter-spacing:-.01em;
+  color:#14161A;text-wrap:pretty;
 }
 .quote img{
   height:15px;width:auto;flex:0 0 auto;
-  opacity:.72;
+  opacity:.66;
 }
-/* Three of the five mastheads ship with a solid white background baked in
-   (Runner's World, GQ, Women's Health). brightness(0) invert(1) would turn
-   those into a plain white block, so they get inverted instead: the white
-   ground goes black and the type goes white. The two with real transparency
-   (Men's Fitness, T3) are forced to flat white. */
-.quote img.alpha{filter:brightness(0) invert(1)}
-.quote img.solid{filter:grayscale(1) invert(1)}
+/* Every masthead now sits on a white card, which is what they were drawn
+   for. The three with a white background baked in (Runner's World, GQ,
+   Women's Health) disappear into it; the two with real transparency
+   (Men's Fitness, T3) are knocked to black so the row stays monochrome. */
+.quote img.alpha{filter:brightness(0)}
+.quote img.solid{filter:grayscale(1)}
 
 /* ---------- best sellers ---------- */
 .carousel{position:relative;margin-top:var(--s5)}
@@ -280,7 +282,20 @@ h1 span{display:block}
    The evidence is the design. The score is set larger than the h1
    because this is the one place on the page where a number, not a
    sentence, is the argument. */
-.proof{border-top:1px solid var(--hair)}
+.proof{position:relative;overflow:hidden;isolation:isolate;background:#0B0B0C}
+.proof-bg{position:absolute;inset:0;z-index:-2}
+.proof-bg img{width:100%;height:100%;object-fit:cover;opacity:.55}
+/* the scrim keeps the score and the cards readable whatever the frame does */
+.proof::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(8,9,10,.88) 0%,rgba(8,9,10,.60) 34%,rgba(8,9,10,.60) 64%,rgba(8,9,10,.92) 100%);
+}
+.proof .score .n,.proof .source strong{color:#fff}
+.proof .score .of{color:rgba(255,255,255,.58)}
+.proof .source{color:rgba(255,255,255,.80)}
+/* No edge fades in here. The rail sits on white cards, and any fade over
+   white reads as a smudge rather than a hint that there is more to scroll.
+   The cards running off the edge already say that. */
 .score{display:flex;align-items:baseline;gap:var(--s3)}
 .score .n{
   font-size:64px;line-height:.9;font-weight:700;letter-spacing:-.04em;
@@ -300,17 +315,17 @@ h1 span{display:block}
 .reviewtrack{gap:var(--s4);align-items:stretch}
 .rcard{
   flex:0 0 262px;
-  background:var(--surface);
-  border:1px solid var(--hair);
+  background:#FFFFFF;
+  color:#14161A;
   border-radius:14px;
   padding:var(--s5);
   display:flex;flex-direction:column;gap:var(--s3);
 }
 .rcard .top{display:flex;align-items:center;gap:10px}
 .rcard .top svg{width:62px;height:12px;flex:0 0 auto}
-.rcard .top span{font-size:var(--t-micro);color:var(--faint);font-style:italic}
+.rcard .top span{font-size:var(--t-micro);color:rgba(20,22,26,.52);font-style:italic}
 .rcard h3{margin:0;font-size:16px;font-weight:700;letter-spacing:-.012em}
-.rcard p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+.rcard p{margin:0;font-size:14px;line-height:1.5;color:rgba(20,22,26,.66)}
 
 /* ---------- our products ---------- */
 .prodslide{
@@ -479,6 +494,11 @@ h1 span{display:block}
 
   <!-- social proof -->
   <section class="section proof reveal">
+    <div class="proof-bg" aria-hidden="true">
+      <img src="https://eu.braingain.fit/cdn/shop/files/home_reviews_bg.jpg" alt=""
+           onerror="this.remove()" loading="lazy">
+    </div>
+
     <div class="wrap">
       <div class="score">
         <span class="n">4.7</span>
@@ -799,7 +819,7 @@ h1 span{display:block}
     img.onerror = function(){
       var s = document.createElement('span');
       s.textContent = p.n;
-      s.style.cssText = 'font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.62)';
+      s.style.cssText = 'font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:inherit;opacity:.62';
       img.replaceWith(s);
     };
     f.appendChild(b); f.appendChild(img);
