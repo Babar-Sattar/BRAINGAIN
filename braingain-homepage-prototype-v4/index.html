@@ -246,7 +246,7 @@
   }
   .trust__pin img{
     position:absolute; left:50%; top:37%;
-    width:134vw; max-width:none;
+    width:150vw; height:auto; max-width:none;
     transform:translate(-47%,-50%);
   }
   .trust__content{
@@ -368,7 +368,7 @@
     content:""; position:absolute; inset:0;
     background:linear-gradient(0deg, #000 0, rgba(0,0,0,.86) 24%, rgba(0,0,0,.3) 52%, rgba(0,0,0,0) 72%);
   }
-  .social__content{ position:relative; padding:39vh 0 56px; padding-top:39svh; }
+  .social__content{ position:relative; padding:39vh 0 28px; padding-top:39svh; }
   .social__head{ padding:0 var(--gutter); }
   .social__head h2{ margin-top:14px; }
 
@@ -380,21 +380,45 @@
   .stars{ color:var(--accent); letter-spacing:.18em; font-size:14px; }
   .rating .ph{ padding:7px 10px; }
 
+  /* Review cards pan right to left in a loop.
+     Fallback (no JS, or "reduce motion" switched on): a row you swipe by hand. */
   .reviews{
-    margin-top:30px;
-    display:grid; grid-auto-flow:column; grid-auto-columns:80vw; gap:12px;
-    padding:0 var(--gutter); scroll-padding-left:var(--gutter);
-    overflow-x:auto; scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    margin-top:30px; padding:0 var(--gutter);
+    overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
   }
   .reviews::-webkit-scrollbar{ display:none; }
+  .reviews__track{ display:flex; gap:12px; width:max-content; }
   .review{
-    scroll-snap-align:start;
+    flex:none; width:80vw;
     display:flex; flex-direction:column; gap:14px;
     padding:22px 22px 20px; min-height:210px;
-    background:rgba(18,20,23,.72); border:1px solid var(--line); border-radius:4px;
-    -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+    background:rgba(16,18,21,.88); border:1px solid var(--line); border-radius:4px;
   }
+
+  .reviews.is-marquee{ overflow:hidden; padding:0; }
+  .reviews.is-marquee .reviews__track{
+    padding-right:12px;                 /* equals the gap, so the loop has no visible seam */
+    animation:pan 44s linear infinite;  /* duration is reset in JS to hold a steady speed */
+    will-change:transform;
+  }
+  @keyframes pan{ to{ transform:translateX(-50%); } }
+  /* stops while a finger is held on it, on hover, and when Pause is pressed */
+  .reviews.is-held .reviews__track,
+  .reviews.is-paused .reviews__track{ animation-play-state:paused; }
+  @media (hover:hover){
+    .reviews.is-marquee:hover .reviews__track{ animation-play-state:paused; }
+  }
+
+  .pause-btn{
+    margin:10px var(--gutter) 0; min-height:44px;
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim);
+  }
+  .pause-btn[hidden]{ display:none; }
+  .pause-btn:hover{ color:var(--text); }
+  .pause-btn .i-play{ display:none; }
+  .pause-btn[aria-pressed="true"] .i-play{ display:block; }
+  .pause-btn[aria-pressed="true"] .i-pause{ display:none; }
   .review blockquote{ font-family:var(--serif); font-weight:300; font-size:20px; line-height:1.32; letter-spacing:-.005em; }
   .review figcaption{
     margin-top:auto; padding-top:14px; border-top:1px solid var(--line);
@@ -403,7 +427,7 @@
   }
   .review figcaption b{ font-weight:500; color:var(--text); }
 
-  @media (min-width:560px){ .reviews{ grid-auto-columns:360px; } }
+  @media (min-width:560px){ .review{ width:360px; } }
   @media (min-width:960px){
     .social{ display:grid; grid-template-columns:minmax(0, 5fr) minmax(0, 6fr); align-items:center; }
     .social__media{
@@ -413,8 +437,12 @@
     .social__media::after{ background:linear-gradient(270deg, #000 0, rgba(0,0,0,0) 38%); }
     .social__content{ padding:120px 0 80px; min-width:0; }
     .social__head{ padding:0 var(--gutter) 0 24px; }
-    .reviews{ padding-left:24px; scroll-padding-left:24px; }
-    .social .progress{ margin-left:24px; }
+    .reviews{ padding-left:24px; }
+    .reviews.is-marquee{
+      -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 90%, transparent 100%);
+      mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 90%, transparent 100%);
+    }
+    .pause-btn{ margin-left:24px; }
   }
 
   /* ============================================================
@@ -596,7 +624,8 @@
         </div>
       </div>
 
-      <div class="reviews reveal" style="--d:220ms" data-carousel tabindex="0" aria-label="Customer reviews">
+      <div class="reviews reveal" style="--d:220ms" aria-label="Customer reviews">
+       <div class="reviews__track">
         <figure class="review">
           <span class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
           <blockquote>Review text placeholder. Two or three lines in the customer&rsquo;s own words.</blockquote>
@@ -617,8 +646,13 @@
           <blockquote>Review text placeholder. Two or three lines in the customer&rsquo;s own words.</blockquote>
           <figcaption><b>Customer name</b><span>Verified buyer</span></figcaption>
         </figure>
+       </div>
       </div>
-      <div class="progress" aria-hidden="true"><i></i></div>
+      <button class="pause-btn" id="reviews-pause" type="button" aria-pressed="false" hidden>
+        <svg class="i-pause" width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M0 0h3v12H0zM7 0h3v12H7z"/></svg>
+        <svg class="i-play" width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>
+        <span>Pause reviews</span>
+      </button>
     </div>
   </section>
 
@@ -698,6 +732,40 @@
     window.addEventListener('resize', update);
     update();
   });
+
+  /* ---------- reviews: pan right to left ---------- */
+  var reviews = document.querySelector('.reviews');
+  var rTrack = reviews && reviews.querySelector('.reviews__track');
+  var pauseBtn = document.getElementById('reviews-pause');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SPEED = 34; /* pixels per second. Lower = slower. */
+
+  if (rTrack && !reduceMotion){
+    /* copy the set once so the end of the loop meets its start */
+    Array.prototype.slice.call(rTrack.children).forEach(function(card){
+      var copy = card.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      rTrack.appendChild(copy);
+    });
+    reviews.classList.add('is-marquee');
+
+    function setSpeed(){ rTrack.style.animationDuration = (rTrack.scrollWidth / 2 / SPEED) + 's'; }
+    setSpeed();
+    window.addEventListener('resize', setSpeed);
+
+    /* hold a finger on the row to stop it and read */
+    reviews.addEventListener('touchstart', function(){ reviews.classList.add('is-held'); }, { passive:true });
+    ['touchend', 'touchcancel'].forEach(function(ev){
+      reviews.addEventListener(ev, function(){ reviews.classList.remove('is-held'); }, { passive:true });
+    });
+
+    pauseBtn.hidden = false;
+    pauseBtn.addEventListener('click', function(){
+      var paused = reviews.classList.toggle('is-paused');
+      pauseBtn.setAttribute('aria-pressed', String(paused));
+      pauseBtn.querySelector('span').textContent = paused ? 'Play reviews' : 'Pause reviews';
+    });
+  }
 })();
 </script>
 </body>
